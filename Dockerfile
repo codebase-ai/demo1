@@ -1,11 +1,15 @@
-# Use an official OpenJDK runtime as a parent image
-FROM openjdk:17-jdk-slim
+# Use an official Python runtime as a base image
+FROM python:3.11-slim
 
 # Set the working directory inside the container
 WORKDIR /app
 
-# Copy the jar file into the container
-COPY app.jar .
+# Copy dependency file and install
+COPY requirements.txt .
+RUN pip install --no-cache-dir -r requirements.txt
 
-# Run the jar file
-ENTRYPOINT ["java", "-jar", "app.jar"]
+# Copy the application code
+COPY . .
+
+# Run the application
+CMD ["python", "app.py"]
