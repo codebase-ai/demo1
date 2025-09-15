@@ -1,18 +1,19 @@
-# Use the official Node.js image
-FROM node:18-alpine
+# Use an official OpenJDK runtime as a parent image
+FROM eclipse-temurin:17-jdk-alpine
 
-# Set the working directory
+# Set working directory inside the container
 WORKDIR /app
 
-# Copy package.json and install dependencies
-COPY package.json package-lock.json ./
-RUN npm install
+# Copy your JAR file into the container
+COPY target/*.jar app.jar
 
-# Copy the application code and public assets
-COPY . .
+# Expose port (optional, for clarity/documentation)
+EXPOSE 8080
 
-# Expose port 3000
-EXPOSE 3000
+# Run the JAR file
+ENTRYPOINT ["java", "-jar", "app.jar"]
 
-# Start the app
-CMD ["node", "server.js"]
+
+
+current_repo=codebase-ai/prompt-ai
+reference_repo=codebase-ai/ci_cd_ai_generator
